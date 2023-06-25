@@ -3,13 +3,12 @@ import { ShoppingCartContext } from '../../Context'
 
 const ProductDetail = () => {
   const context = useContext(ShoppingCartContext)
-  console.log('PRODUCT:', context.productToShow)
-
+  
   return (
     <aside
         className={`
             ${context.isProductDetailOpen ? 'flex' : 'hidden'}
-            flex flex-col fixed right-0 border bg-white border-black rounded-lg w-[350px] h-[calc(100vh-80px)] m-2 top-[72px] 
+            flex flex-col fixed right-0 border bg-white border-black rounded-lg w-[350px] h-[calc(100vh-80px)] m-2 top-[72px] overflow-y-scroll
         `}
     >
         <div className="flex justify-between items-center p-6">

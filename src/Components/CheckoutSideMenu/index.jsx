@@ -1,6 +1,8 @@
 import { useContext } from "react"
+import { Link } from "react-router-dom"
 import { ShoppingCartContext } from '../../Context'
 import OrderCard from "../OrderCard"
+import { totalPrice } from "../../utils"
 
 const CheckoutSideMenu = () => {
     const context = useContext(ShoppingCartContext)
@@ -8,6 +10,19 @@ const CheckoutSideMenu = () => {
     const handleDelete = (id) => {
         const filteredProducts = context.cartProducts.filter(product=>product.id != id)
         context.setCartProducts(filteredProducts)
+    }
+
+    const handleCheckout = () => {
+        const orderToAdd = {
+            date: "02/03/2023",
+            products: context.cartProducts,
+            totalProducts: context.cartProducts.length,
+            totalPrice: totalPrice(context.cartProducts)
+        }
+        context.setOrder([...context.order, orderToAdd])
+        context.setCartProducts([])
+        context.setSearchByTitle(null)
+        context.setCategory(null)
     }
 
     return (
@@ -18,7 +33,7 @@ const CheckoutSideMenu = () => {
             `}
         >
             <div className="flex justify-between items-center p-6">
-                <h2 className="font-medium text-xl">My order</h2>
+                <h2 className="font-medium text-xl">My Order</h2>
                 <div
                 className="cursor-pointer"
                 onClick={() => context.closeCheckoutSideMenu()}
@@ -39,7 +54,7 @@ const CheckoutSideMenu = () => {
                 </svg>
                 </div>
             </div>
-            <div className="px-6 overflow-y-scroll">
+            <div className="px-6 overflow-y-scroll flex-1">
                 {
                     context.cartProducts.map(product => (
                         <OrderCard
@@ -52,6 +67,19 @@ const CheckoutSideMenu = () => {
                         /> 
                     ))
                 }
+            </div>
+            <div className="px-6">
+                <p className="flex justify-between items-center bg-slate-200 rounded-lg p-1">
+                    <span className="font-light">Total: </span>
+                    <span className="font-medium text-xl">${totalPrice(context.cartProducts)}</span>
+                </p>
+                <Link to="/my-orders/last" >
+                    <button
+                        className="font-bold cursor-pointer bg-teal-200 p-3 rounded-lg w-full my-3 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:transform-none"
+                        onClick={()=>handleCheckout()}>
+                        Buy now
+                    </button>                
+                </Link>
             </div>
         </aside>
                 )
