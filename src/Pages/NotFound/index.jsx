@@ -4,7 +4,7 @@ function NotFound() {
     return (
       <>
         <Layout>
-        NotFound
+        HOLA
         </Layout>
       </>
     )
